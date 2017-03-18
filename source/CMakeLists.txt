@@ -15,12 +15,12 @@ configure_file(setup_application.in.h setup_application.h)
 
 add_executable(${PROJECT_NAME} WIN32
     main.cpp
-    main_window.cpp
-    main_window.h
-    main_window.ui
     ui/about_dialog.cpp
     ui/about_dialog.h
-    ui/about_dialog.ui)
+    ui/about_dialog.ui
+    ui/main_window.cpp
+    ui/main_window.h
+    ui/main_window.ui)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})

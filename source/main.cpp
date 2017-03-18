@@ -1,6 +1,6 @@
 #include <iostream>
 #include <QApplication>
-#include "main_window.h"
+#include "ui/main_window.h"
 #include "setup_application.h"
 
 
