@@ -1,8 +1,6 @@
-#include <iostream>
 #include <QApplication>
 #include "ui/main_window.h"
 #include "setup_application.h"
-
 
 int main(int argc, char* argv[])
 {
@@ -11,9 +9,8 @@ int main(int argc, char* argv[])
     stacks::setup_application(application);
 
     // set up the main window
-    main_window m;
+    stacks::ui::main_window m;
     m.showMaximized();
 
-    std::cout << "Welcome to Stacks!\n";
     return application.exec();
 }
