@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>stacks::about_dialog</class>
- <widget class="QDialog" name="stacks::about_dialog">
+ <class>stacks::ui::about_dialog</class>
+ <widget class="QDialog" name="stacks::ui::about_dialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -53,7 +53,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>stacks::about_dialog</receiver>
+   <receiver>stacks::ui::about_dialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -69,7 +69,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>stacks::about_dialog</receiver>
+   <receiver>stacks::ui::about_dialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

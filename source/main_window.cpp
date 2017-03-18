@@ -27,6 +27,6 @@ void main_window::on_action_Open_triggered()
 
 void main_window::on_action_About_triggered()
 {
-    stacks::about_dialog dialog(this);
+    stacks::ui::about_dialog dialog(this);
     dialog.exec();
 }
