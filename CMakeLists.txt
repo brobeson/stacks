@@ -19,12 +19,6 @@ else()
     execute_process(COMMAND git rev-parse --short HEAD RESULT_VARIABLE git_sha ERROR_QUIET)
 endif()
 
-# add the make targets for the actual application
-add_subdirectory(source)
-
-# add commands to generate Doxygen as a make target
-configure_file(doxyfile.in doxyfile)
-add_custom_target(reference
-    COMMAND doxygen
-    COMMENT "Running Doxygen...")
+add_subdirectory(source)    # add the make targets for the actual application
+add_subdirectory(reference) # add the make target for the source code reference documentation
 
