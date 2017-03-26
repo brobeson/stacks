@@ -1,6 +1,7 @@
 # check if Doxygen is installed. if it's not found, let the user know, then don't bother with the
 # build target for the reference manual.
-find_program(doxygen "doxygen")
+find_program(doxygen "doxygen" DOC "The path the Doxygen executaable. "
+                                   "This is required to generate the code reference manual.")
 if (doxygen STREQUAL "doxygen-NOTFOUND")
     message(WARNING "Doxygen was not found. The build target 'reference' will not be available.")
     return()
@@ -8,7 +9,8 @@ endif()
 
 # check if pdflatex is installed. if it is, enable LaTeX output. if it is not, give a warning and
 # disable LaTeX output.
-find_program(pdflatex "pdflatex")
+find_program(pdflatex "pdflatex" DOC "The path the pdflatex executable. "
+                                     "This is required to generate a PDF version of the code reference manual.")
 if (pdflatex STREQUAL "pdflatex-NOTFOUND")
     message(WARNING "Pdflatex was not found. The build target 'reference' will not generate LaTeX output")
     set(generate_latex "no")
@@ -16,7 +18,38 @@ else()
     set(generate_latex "yes")
 endif()
 
-# add commands to generate Doxygen as a make target
+# check if GraphViz is available for generating class diagrams
+find_program(dot "dot" DOC "The path to the dot executable (from GraphViz). "
+                           "This is required to generate diagrams in the code reference manual.")
+if (dot STREQUAL "dot-NOTFOUND")
+    message(WARNING "GraphViz was not found. Class diagrams in the code reference will not be as rich.")
+    set(have_dot "no")
+else()
+    set(hav_dot "yes")
+endif()
+
+# look for plantuml.jar. first, set the hint paths based on the OS. then look for the jar file.
+# finally, set the Doxygen variable depending on if the jar path was found.
+if (UNIX)
+    set(plantuml_jar_hints "/usr/share")
+else()
+    message(WARNING "Locating plantuml.jar is not supported for your platform.")
+endif()
+
+find_file(plantuml_jar_path "plantuml.jar"
+    DOC "The location of the plantuml.jar file on your system."
+    PATHS "/usr/share/"
+    PATH_SUFFIXES "plantuml")
+
+if (plantuml_jar_path STREQUAL "plantuml_jar_path-NOTFOUND")
+    message(WARNING "plantuml.jar was not found. UML diagrams in the code reference will not be generated.")
+    set(plantuml_path_for_doxygen "")
+else()
+    set(plantuml_path_for_doxygen "${plantuml_jar_path}")
+endif()
+
+# configure the Doxygen configuration file, setting certain options based on the system research
+# carried out above.
 configure_file(doxyfile.in doxyfile)
 
 # add the "reference" target to generate the code reference manual:
