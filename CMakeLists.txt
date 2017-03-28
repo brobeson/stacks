@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.5)
 
+# prohibit in-source builds. of any kind.
+if (CMAKE_BINARY_DIR MATCHES "${CMAKE_SOURCE_DIR}.*")
+    message(FATAL_ERROR "In-source buiLds are not allowed. Please clean up any files written to the source tree.")
+endif()
+
+# limit build types to release and debug
+set(CMAKE_CONFIGURATION_TYPES "debug;release")
+
 # set up some variables about the application identity. these are used to
 # configure_files for various products.
 set(application_name "stacks")          # used for anything I need to type: make target, built binary, etc.
@@ -16,7 +24,11 @@ find_program(git "git")
 if (git STREQUAL "git-NOTFOUND")
     message(WARNING "Git was not found. The commit SHA-1 will not be used for versioning.")
 else()
-    execute_process(COMMAND git rev-parse --short HEAD RESULT_VARIABLE git_sha ERROR_QUIET)
+    execute_process(
+        COMMAND git rev-parse --short HEAD
+        RESULT_VARIABLE git_sha
+        ERROR_QUIET
+        OUTPUT_QUIET)
 endif()
 
 add_subdirectory(source)    # add the make targets for the actual application
